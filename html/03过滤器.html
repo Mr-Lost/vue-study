@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    // 1.全局过滤器
+    // {{数据 | 过滤器名字}}
+    Vue.filter('myCurrency', function (val) {
+        return "￥" + val;
+    });
+    var App = {
+        data(){
+            return {
+                price: 0,
+                word: 'Hello Vue'
+            }
+        },
+        // 2.局部过滤器
+        filters: {
+            myReverse: function (val) {
+                return val.split('').reverse().join('');
+            }
+        },
+        template:`
+            <div>
+                <input type="number" v-model="price">
+                <h3>{{price | myCurrency}}</h3>
+                <h4>{{word | myReverse}}</h4>
+            </div>`
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App
+        },
+        template:'<App />'
+    })
+</script>
+</html>

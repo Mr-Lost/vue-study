@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件间通信</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    // 父-->子   父组件中绑定自定义属性，子组件中用props接收父组件传递的数据
+    // 子-->父   父组件中自定义事件，子组件函数中使用$emit()来触发自定义的原生事件
+    Vue.component('Parent', {
+        data(){
+            return {
+                msg: '我是父组件的数据'
+            }
+        },
+        template:'<div>我是父组件<Child :childData="msg" @childHandler="childHandler" /></div>',
+        methods:{
+            childHandler: function (val) {
+                console.log(val);
+            }
+        }
+    });
+    
+    Vue.component('Child', {
+        props:['childData'],
+        template:'<div>我是子组件<br><input type="text" v-model="childData" @input="changeValue(childData)"></div>',
+        methods:{
+            changeValue: function (val) {
+                // $emit(自定义事件名, 消息)
+                this.$emit('childHandler', val);
+            }
+        }
+    });
+    new Vue({
+        el: '#app',
+        template:'<div><Parent /></div>'
+    })
+</script>
+</html>

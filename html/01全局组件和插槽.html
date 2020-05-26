@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全局组件和插槽</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    // 1.全局组件
+    Vue.component('Vbtn', {
+        // 3.插槽 内置组件 作为承载分发内容的出口
+       template:'<button><slot>按钮</slot></button>'
+    });
+    // 2.局部组件
+    var Vheader = {
+        template:'<div>这是头部组件</div>'
+    };
+    var Vaside = {
+        template:'<div>这是侧边栏组件<Vbtn /></div>'
+    };
+    var Vcontent = {
+        template:'<div>这是内容组件<Vbtn>登录</Vbtn><Vbtn>注册</Vbtn></div>'
+    };
+    var App = {
+        components:{
+            Vheader,
+            Vaside,
+            Vcontent
+        },
+        // template默认为空，如有内容则覆盖绑定元素进行展示，且内容只有一个根元素(即最外层元素没有平行元素)
+        template:'<div><Vheader /><Vaside /><Vcontent /></div>'
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App
+        },
+        // <组件名 /> = <组件名> <组件名/>
+        template:'<App />'
+    })
+</script>
+</html>

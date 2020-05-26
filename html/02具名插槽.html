@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>具名插槽</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    Vue.component('myLi', {
+       template:`
+       <li>
+           我是二级标题<slot name="two"></slot>
+           我是三级标题<slot name="three"></slot>
+        </li>`
+    });
+    new Vue({
+        el: '#app',
+        template:`
+        <div>
+            <ul>
+                <myLi>
+                    <li slot="two"><h2>我要个二级标题</h2></li>
+                    <li slot="three"><h3>我要个三级标题</h3></li>
+                </myLi>
+            </ul>
+        </div>`
+    })
+</script>
+</html>
