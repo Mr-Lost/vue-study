@@ -1,2 +1,2 @@
 # vue-study
-Vue from 0 to unlimited
+Vue from 0 to infinity
