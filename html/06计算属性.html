@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性 </title>
+    <style>
+        ul{
+            list-style: none;
+        }
+        ul li{
+            margin: 10px 5px;
+            padding: 10px 5px;
+        }
+        ul li.active{
+            background-color: cadetblue;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    var musicData = [
+        {id:1, name: '孙燕姿 - 遇见', author: '孙燕姿', songSrc: '../static/孙燕姿 - 遇见.mp3'},
+        {id:2, name: '孙燕姿 - 克卜勒', author: '孙燕姿', songSrc: '../static/孙燕姿 - 克卜勒.mp3'},
+        {id:3, name: '孙燕姿 - 开始懂了', author: '孙燕姿', songSrc: '../static/孙燕姿 - 开始懂了.mp3'},
+        {id:4, name: '孙燕姿 - 当冬夜渐暖', author: '孙燕姿', songSrc: '../static/孙燕姿 - 当冬夜渐暖.mp3'},
+    ];
+    var App = {
+        data(){
+            return {
+                musicData: musicData,
+                currentId: 0
+            }
+        },
+        template:`
+            <div>
+                <audio :src="getCurrentSong" autoplay controls></audio>
+                <ul>
+                    <li v-for="(music, index) in musicData" @click="clickHandler(index)" :class="{active: currentId == index}">
+                        <h3>{{music.id}} - 歌名：{{music.name}}</h3>
+                        <h4>歌手：{{music.author}}</h4>
+                    </li>
+                </ul>
+            </div>`,
+        // 计算属性默认只有getter
+        computed:{
+            getCurrentSong: function () {
+                return this.musicData[this.currentId].songSrc;
+            }
+        },
+        methods:{
+            clickHandler: function (index) {
+                this.currentId = index;
+            }
+        }
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App
+        },
+        template:'<App />'
+    })
+</script>
+</html>
