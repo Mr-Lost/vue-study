@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Vue</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    Vue.component('A', {
+        template:'<div @click="clickHandler" id="aaa">我是A，{{$attrs.msg}}  这里还应该有点东西</div>',
+        methods: {
+            clickHandler: function () {
+                this.$emit('getData', '我是最后一层套娃A');
+            }
+        }
+    });
+    Vue.component('B', {
+        template: '<div>我是B<A v-bind="$attrs" v-on="$listeners" /></div>'
+    });
+    Vue.component('C', {
+        props: ['message'],
+        template: '<div>我是C<B v-bind="$attrs" v-on="$listeners" /></div>'
+    });
+    var App = {
+        data(){
+          return {
+              msg: 'Hello Vue',
+              message: '禁止套娃'
+          }
+        },
+        template:'<div>俄罗斯套娃：<C :message="message" @getData="getData" /></div>',
+        methods: {
+            getData: function (val) {
+                console.log(val, '闹太套');
+            }
+        },
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App
+        },
+        template:'<App />'
+    })
+</script>
+</html>
