@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取DOM元素</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    // 给标签绑定 ref='xxx'属性，使用this.$refs.xxx来获取原生DOM对象，ref属性值不要重复
+    // 给组件绑定则获取的是组件对象
+    Vue.component('Btn', {
+        template: '<button>按钮</button>'
+    });
+    var App = {
+        data(){
+            return {
+                isShow: false
+            }
+        },
+        template:`
+            <div>
+                <div ref="div1">Welcome to my Vue.</div>
+                <div ref="div2">See you next time.</div>
+                <Btn ref="btn1" />
+                <input type="text" v-show="isShow" ref="input">
+            </div>`,
+        mounted(){
+            console.log(this.$refs.div1);
+            console.log(this.$refs.div2);
+            console.log(this.$refs.btn1);
+            this.isShow = true;
+            // $nextTick() 在DOM更新循环结束后执行回调函数，修改数据后使用此方法，在回调中获得到更新后的DOM
+            this.$nextTick(()=>{
+                this.$refs.input.focus();   // 获取input框的焦点
+            })
+        }
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App
+        },
+        template:'<App />'
+    })
+</script>
+</html>

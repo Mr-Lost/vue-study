@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-router使用</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<!--(1)传统开发方式url改变后，立即发送请求响应整个页面，可能因为资源过多出现白屏
+    (2)SPA 单页面应用 Single Page Application
+        锚点值改变后不会立即发送请求，而是某个合适时机发送ajax请求，进行页面局部渲染，使用户体验更好
+-->
+<!--1.引入vue模块-->
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<!--2.引入vue-router模块-->
+<script type="text/javascript" src="../js/vue-router.min.js"></script>
+<script type="text/javascript">
+    // 3.让Vue使用该VueRouter创建，当Vue挂载为全局时已默认，可以不写
+    // Vue.use(VueRouter);
+    // 4.创建router对象
+    var Login = {
+        template: '<div>我是登录页面</div>'
+    };
+    var Register = {
+        template: '<div>我是注册页面</div>'
+    };
+    var UserParams = {
+        template: '<div>我是参数用户</div>',
+        created(){
+            console.log(this.$router);   // VueRouter
+            console.log(this.$route.params.id);   // 配置路由信息的对象
+        }
+    };
+    var UserQuery = {
+        template: '<div>我是查询用户</div>'
+    };
+    var Song = {
+        template: '<div>这里有首歌</div>'
+    };
+    var Movie = {
+        template: '<div>这里有部剧</div>'
+    };
+    var Home = {
+        template: `
+            <div>
+                首页内容
+                <br>
+                <router-link to="/home/song">想听歌</router-link>
+                <router-link to="/home/movie">想追剧</router-link>
+                <router-view></router-view>
+            </div>`
+    };
+    var router = new VueRouter({
+        // 5.配置路由对象
+       routes: [
+           // 路由匹配规则
+           {
+               path: '/login',
+               component: Login
+           },
+           // 7.命名路由，绑定属性to为自定义的命名，即 :to="{name:'xxx'}"
+           {
+               path: '/register',
+               name: 'register',
+               component: Register
+           },
+           // 8.路由参数
+           {
+               // 动态路由参数 冒号开头
+               path: '/user/:id',
+               name: 'userP',
+               component: UserParams
+           },
+           {
+               // 查询路由参数
+               path: '/user',
+               name: 'userQ',
+               component: UserQuery
+           },
+           // 9.嵌套路由，用于子路由中不同页面的跳转
+           {
+               path: '/home',
+               name: 'home',
+               component: Home,
+               children: [
+                   {
+                       path: 'song',
+                       component: Song
+                   },
+                   {
+                       path: 'movie',
+                       component: Movie
+                   }
+               ]
+           }
+       ]
+    });
+    // 引入vue-router模块，会有两个全局组件：router-link(相当于a，其中属性to相当于href)，router-view(路由匹配组件的出口)
+    var App = {
+        component:{
+            Home
+        },
+        template:`
+            <div>
+                <router-link to="login">登录按钮</router-link>
+                <router-link :to="{name:'register'}">注册按钮</router-link>
+                <router-link :to="{name:'userP', params:{id:1}}">参数用户</router-link>
+                <router-link :to="{name:'userQ', query:{userId:2}}">查询用户</router-link>
+                <br>
+                <router-link :to="{name:'home'}">首页</router-link>
+                <router-view></router-view>
+            </div>`
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App,
+        },
+        // 6.交给vue实例化对象管理(键值对相同即简写为一个)
+        router,
+        template:'<div><App /></div>'
+    })
+</script>
+</html>

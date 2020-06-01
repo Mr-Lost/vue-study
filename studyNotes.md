@@ -8,4 +8,5 @@
 &emsp; `v-for`循环(如v-for='site in sites'，sites为源数据数组，site为数组元素的迭代别名)。  
 &emsp; 缩写：`@click` = `v-on:click`，`:href='url'` = `v-bind:href='url'`。
 - 2.数据绑定`{{}}`用于输出对象属性和函数返回值。
-- 3.全局组件`Vue.component('组件名', {options})`。(PS: 单数而不是components)
+- 3.全局组件`Vue.component('组件名', {options})`。(PS: 单数而不是components)  
+- 4.ref属性用来给DOM元素或子组件注册引用信息，引用信息会根据父组件的$refs属性进行注册。DOM元素上使用，引用信息就是元素，组件上使用，引用信息就是组件实例。
