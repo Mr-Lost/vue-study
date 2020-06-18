@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中央事件总线</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript">
+    // 非父子组件可使用中央事件总线，bus.$emit触发事件，bus.$on监听
+    var bus = new Vue();
+    Vue.component('brother1', {
+        data(){
+            return {
+                msg: 'hello brothers'
+            }
+        },
+        template: `
+            <div>
+                <p>我是老大</p>
+                <input type="text" v-model="msg" @input='passData(msg)'>
+            </div>
+        `,
+        methods: {
+            passData(val){
+                // 触发全局事件
+                bus.$emit('globalEvent', val)
+            }
+        }
+    });
+    Vue.component('brother2', {
+        data(){
+            return{
+                brother2Msg: '请在input中输入'
+            }
+        },
+        template: `
+            <div>
+                <p>我是老二</p>
+                <p>老大传递过来的数据是：{{brother2Msg}}</p>
+            </div>
+        `,
+        mounted(){
+            //绑定全局事件
+            bus.$on('globalEvent', (val)=>{
+                this.brother2Msg = val;
+            })
+        }
+    });
+    new Vue({
+        el: '#app',
+        template: `<div><brother2 /><brother1 /></div>`
+    })
+</script>
+</html>
