@@ -10,6 +10,7 @@
 <script type="text/javascript" src="../js/vue.min.js"></script>
 <script type="text/javascript" src="../js/vue-router.min.js"></script>
 <script type="text/javascript">
+    Vue.use(VueRouter);
     var Home = {
         template: '<div>我是主页</div>'
     };
@@ -69,15 +70,26 @@
            }
        ]
     });
+    // 全局守卫
     router.beforeEach((to, from, next)=>{
-        console.log(to);
-        console.log(from);
+        // console.log(to);
+        // console.log(from);
         if(to.meta.auth){
             // 用户点击了博客链接 该用户需要登录
             // next('/login');
-            next({
-                path: '/login'
-            });
+            if(localStorage.getItem('user')){
+                // 如果存储用户不为空，表示已登录，直接放行
+                next();
+            }
+            else{
+                next({
+                    path: '/login'
+                });
+            }
+        }
+        else{
+            // 不调用next()会卡住
+            next()
         }
     });
     var App = {
@@ -86,7 +98,7 @@
                 <router-link to="/home">首页</router-link>
                 <router-link to="/blog">我的博客</router-link>
                 <router-link to="/login">登录</router-link>
-                <a href="javascript:void(0)">退出</a>
+                <a href="javascript:void(0)" @click="window.localStorage.removeItem('user')">退出</a>
                 <router-view></router-view>
             </div>
         `
