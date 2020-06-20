@@ -1,0 +1,21 @@
+{
+  "name": "vue_study",
+  "version": "1.0.0",
+  "description": "Vue from 0 to infinity",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mr-Lost/vue-study.git"
+  },
+  "author": "lmr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mr-Lost/vue-study/issues"
+  },
+  "homepage": "https://github.com/Mr-Lost/vue-study#readme"
+}

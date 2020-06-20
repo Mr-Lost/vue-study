@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>并发请求</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
+<script type="text/javascript">
+    Vue.prototype.$axios = axios;
+    var App = {
+        data(){
+            return{
+                res1: '',
+                res2: ''
+            }
+        },
+        template:`
+            <div>
+                <h3>响应1：{{res1}}</h3>
+                <h3>响应2：{{res2}}</h3>
+                <button @click="sendAjax">并发请求</button>
+            </div>
+        `,
+        methods:{
+            sendAjax(){
+                this.$axios.defaults.baseURL = 'http://127.0.0.1:8888/';
+                // 请求1 get  : /
+                // 请求2 post : /add
+                var r1 = this.$axios.get('');
+                var r2 = this.$axios.post('add', 'a=1');
+                this.$axios.all([r1, r2])
+                    .then(this.$axios.spread((res1, res2)=>{
+                        // 请求全部成功
+                        this.res1 = res1.data;
+                        this.res2 = res2.data;
+                    }))
+                    .catch(err=>{
+                        // 其一失败
+                        console.log(err);
+                    })
+            }
+        }
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App
+        },
+        template:'<App />'
+    })
+</script>
+</html>

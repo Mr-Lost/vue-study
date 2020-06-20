@@ -1,3 +1,4 @@
 .idea/
 */.idea/
-static/
+/static/
+node_modules/
