@@ -1,3 +1,4 @@
+# Vue
 - 1.指令：带有`v-`前缀的特殊属性，用于在表达式的值改变时，将某些行为应用到DOM上。  
 &emsp; `v-html`用于输出 html 代码(如v-html='msg'，在组件data里定义msg内容)。  
 &emsp; `v-bind`用于响应地更新HTML属性，参数在指令后以冒号指明。  

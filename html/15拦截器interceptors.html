@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拦截器</title>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
+<script type="text/javascript">
+    Vue.prototype.$axios = axios;
+    var App = {
+        template:`
+            <div>
+                <button @click="sendAjax">发送请求</button>
+            </div>
+        `,
+        methods:{
+            sendAjax(){
+                // 请求拦截器
+                this.$axios.interceptors.request.use((config)=>{
+                    console.log(config);
+                }, function (err) {
+                    return Promise.reject(err);
+                });
+                // 响应拦截器
+                this.$axios.interceptors.response.use(function (response) {
+                    // 对响应数据做点什么
+                    console.log(response);
+                    return response;
+                }, function (error) {
+                    // 对响应错误做点什么
+                    return Promise.reject(error);
+                });
+
+                this.$axios.get('http://127.0.0.1:8888/')
+                    .then(res=>{console.log(res);})
+                    .catch(err=>{console.log(err);})
+            }
+        }
+    };
+    new Vue({
+        el: '#app',
+        components:{
+            App
+        },
+        template:'<App />'
+    })
+</script>
+</html>

@@ -3,8 +3,20 @@
   "version": "1.0.0",
   "description": "Vue from 0 to infinity",
   "main": "index.js",
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "axios": "^0.19.2",
+    "fs": "0.0.1-security",
+    "http-server": "^0.12.3",
+    "koa": "^2.12.1",
+    "koa-formidable": "^1.1.0",
+    "koa-router": "^9.0.1",
+    "path": "^0.12.7",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

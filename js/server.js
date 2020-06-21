@@ -19,7 +19,7 @@ const formidable = require('koa-formidable');
 // };
 // app.use(cors(corsOptions));
 
-router.post('/upload', async (ctx, next)=>{
+router.post('/upload', async(ctx, next)=>{
     console.log('上传成功');
     ctx.body = 'ok';
 })

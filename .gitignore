@@ -2,3 +2,5 @@
 */.idea/
 /static/
 node_modules/
+
+webpack_demo/
